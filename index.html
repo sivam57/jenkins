@@ -1,780 +1,264 @@
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Simple E‑Commerce Demo</title>
+  <style>
+    :root{--bg:#f6f8fa;--card:#fff;--muted:#6b7280;--accent:#2563eb;--accent-2:#10b981}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;background:var(--bg);color:#0f172a}
+    header{background:linear-gradient(90deg,#0ea5e9 0%, #7c3aed 100%);color:#fff;padding:20px 16px;display:flex;gap:16px;align-items:center;justify-content:space-between}
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{width:44px;height:44px;border-radius:8px;background:rgba(255,255,255,0.14);display:flex;align-items:center;justify-content:center;font-weight:700}
+    .brand h1{font-size:18px;margin:0}
+    .search{flex:1;margin:0 16px}
+    .search input{width:100%;padding:10px 12px;border-radius:8px;border:none;outline:none}
+    .cart-btn{background:rgba(255,255,255,0.12);border:none;color:white;padding:10px 12px;border-radius:8px;cursor:pointer}
 
-  <head>
+    main{max-width:1100px;margin:28px auto;padding:0 16px}
+    .hero{display:grid;grid-template-columns:1fr 360px;gap:24px;align-items:center;margin-bottom:24px}
+    .hero-card{background:var(--card);padding:26px;border-radius:12px;box-shadow:0 4px 20px rgba(2,6,23,0.08)}
+    .hero h2{margin:0 0 8px;font-size:20px}
+    .hero p{margin:0;color:var(--muted)}
+    .hero .cta{margin-top:16px}
+    .btn{background:var(--accent);color:#fff;padding:10px 14px;border-radius:10px;border:none;cursor:pointer}
+    .btn.secondary{background:transparent;color:var(--accent);border:1px solid rgba(37,99,235,0.12)}
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    .filters{display:flex;gap:12px;margin-bottom:12px;align-items:center}
+    .filters select{padding:8px;border-radius:8px;border:1px solid #e6edf3}
 
-    <title>Onix Digital Marketing HTML5 Template</title>
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    @media(max-width:900px){.hero{grid-template-columns:1fr} .grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:560px){.grid{grid-template-columns:1fr}}
 
-    <!-- Bootstrap core CSS -->
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    .product{background:var(--card);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:10px;box-shadow:0 6px 18px rgba(2,6,23,0.04)}
+    .product img{width:100%;height:180px;object-fit:cover;border-radius:8px}
+    .p-title{font-weight:600;margin:0}
+    .p-desc{margin:0;color:var(--muted);font-size:13px}
+    .p-bottom{display:flex;align-items:center;justify-content:space-between}
+    .price{font-weight:700}
+    .add{background:var(--accent-2);border:none;padding:8px 10px;border-radius:8px;color:white;cursor:pointer}
 
+    /* cart drawer */
+    .cart-drawer{position:fixed;right:16px;top:72px;width:360px;max-height:70vh;background:var(--card);border-radius:12px;box-shadow:0 10px 40px rgba(2,6,23,0.16);overflow:auto;transform:translateX(120%);transition:transform .25s ease-in-out}
+    .cart-drawer.open{transform:translateX(0)}
+    .cart-head{display:flex;align-items:center;justify-content:space-between;padding:16px;border-bottom:1px solid #eef2f6}
+    .cart-list{padding:12px;display:flex;flex-direction:column;gap:12px}
+    .cart-item{display:flex;gap:10px;align-items:center}
+    .ci-thumb{width:64px;height:64px;border-radius:8px;object-fit:cover}
+    .ci-meta{flex:1}
+    .qty{display:flex;gap:6px;align-items:center}
+    .qty button{padding:6px;border-radius:6px;border:1px solid #e6edf3;background:transparent;cursor:pointer}
+    .checkout{padding:12px;margin:12px;border-radius:10px;border:none;background:var(--accent);color:white;width:calc(100% - 24px);cursor:pointer}
 
-    <!-- Additional CSS Files -->
-    <link rel="stylesheet" href="assets/css/fontawesome.css">
-    <link rel="stylesheet" href="assets/css/templatemo-onix-digital.css">
-    <link rel="stylesheet" href="assets/css/animated.css">
-    <link rel="stylesheet" href="assets/css/owl.css">
-<!--
-
-TemplateMo 565 Onix Digital
-
-https://templatemo.com/tm-565-onix-digital
-
--->
-  </head>
-
+    footer{max-width:1100px;margin:28px auto;padding:16px;color:var(--muted)}
+  </style>
+</head>
 <body>
-
-  <!-- ***** Preloader Start ***** -->
-  <div id="js-preloader" class="js-preloader">
-    <div class="preloader-inner">
-      <span class="dot"></span>
-      <div class="dots">
-        <span></span>
-        <span></span>
-        <span></span>
+  <header>
+    <div class="brand">
+      <div class="logo">EC</div>
+      <div>
+        <h1>EasyCart</h1>
+        <div style="font-size:12px;opacity:.9">Handmade demo store</div>
       </div>
     </div>
-  </div>
-  <!-- ***** Preloader End ***** -->
-
-  <!-- ***** Header Area Start ***** -->
-  <header class="header-area header-sticky wow slideInDown" data-wow-duration="0.75s" data-wow-delay="0s">
-    <div class="container">
-      <div class="row">
-        <div class="col-12">
-          <nav class="main-nav">
-            <!-- ***** Logo Start ***** -->
-            <a href="index.html" class="logo">
-              <img src="assets/images/logo.png">
-            </a>
-            <!-- ***** Logo End ***** -->
-            <!-- ***** Menu Start ***** -->
-            <ul class="nav">
-              <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
-              <li class="scroll-to-section"><a href="#services">Services</a></li>
-              <li class="scroll-to-section"><a href="#about">About</a></li>
-              <li class="scroll-to-section"><a href="#portfolio">Portfolio</a></li>
-              <li class="scroll-to-section"><a href="#video">Videos</a></li> 
-              <li class="scroll-to-section"><a href="#contact">Contact Us</a></li> 
-              <li class="scroll-to-section"><div class="main-red-button-hover"><a href="#contact">Contact Us Now</a></div></li> 
-            </ul>        
-            <a class='menu-trigger'>
-                <span>Menu</span>
-            </a>
-            <!-- ***** Menu End ***** -->
-          </nav>
-        </div>
-      </div>
+    <div class="search"><input id="search" placeholder="Search products, e.g. shoes, jacket..." /></div>
+    <div style="display:flex;gap:10px;align-items:center">
+      <button class="cart-btn" id="view-cart">Cart (<span id="cart-count">0</span>)</button>
     </div>
   </header>
-  <!-- ***** Header Area End ***** -->
 
-  <div class="main-banner" id="top">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-12">
-          <div class="row">
-            <div class="col-lg-6 align-self-center">
-              <div class="owl-carousel owl-banner">
-                <div class="item header-text">
-                  <h6>Welcome to Onix Digital</h6>
-                  <h2>Build <em>your website</em> the best in <span>SEO</span>?</h2>
-                  <p>This is a professional looking HTML Bootstrap 5 website template brought to you by TemplateMo website.</p>
-                  <div class="down-buttons">
-                    <div class="main-blue-button-hover">
-                      <a href="#contact">Message Us Now</a>
-                    </div>
-                    <div class="call-button">
-                      <a href="#"><i class="fa fa-phone"></i> 010-020-0340</a>
-                    </div>
-                  </div>
-                </div>
-                <div class="item header-text">
-                  <h6>Online Marketing</h6>
-                  <h2>Get the <em>best ideas</em> for <span>your website</span></h2>
-                  <p>You are NOT allowed to redistribute this template ZIP file on any Free CSS collection websites. Contact us for more info. Thank you.</p>
-                  <div class="down-buttons">
-                    <div class="main-blue-button-hover">
-                      <a href="#services">Our Services</a>
-                    </div>
-                    <div class="call-button">
-                      <a href="#"><i class="fa fa-phone"></i> 090-080-0760</a>
-                    </div>
-                  </div>
-                </div>
-                <div class="item header-text">
-                  <h6>Video Tutorials</h6>
-                  <h2>Watch <em>our videos</em> for your <span>projects</span></h2>
-                  <p>Please <a rel="nofollow" href="https://www.paypal.me/templatemo" target="_blank">support us</a> a little via PayPal if this digital marketing HTML template is useful for you. Thank you.</p>
-                  <div class="down-buttons">
-                    <div class="main-blue-button-hover">
-                      <a href="#video">Watch Videos</a>
-                    </div>
-                    <div class="call-button">
-                      <a href="#"><i class="fa fa-phone"></i> 050-040-0320</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+  <main>
+    <div class="hero">
+      <div class="hero-card">
+        <h2>Welcome to EasyCart</h2>
+        <p>Beautifully simple e-commerce demo. Browse products, add to cart and try a fake checkout flow — all client-side.</p>
+        <div class="cta">
+          <button class="btn" onclick="document.getElementById('search').focus()">Start shopping</button>
+          <button class="btn secondary" onclick="document.getElementById('view-cart').click()">View cart</button>
         </div>
       </div>
-    </div>
-  </div>
 
-  <div id="services" class="our-services section">
-    <div class="services-right-dec">
-      <img src="assets/images/services-right-dec.png" alt="">
-    </div>
-    <div class="container">
-      <div class="services-left-dec">
-        <img src="assets/images/services-left-dec.png" alt="">
-      </div>
-      <div class="row">
-        <div class="col-lg-6 offset-lg-3">
-          <div class="section-heading">
-            <h2>We <em>Provide</em> The Best Service With <span>Our Tools</span></h2>
-            <span>Our Services</span>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-lg-12">
-          <div class="owl-carousel owl-services">
-            <div class="item">
-              <h4>Learn More about our Guidelines</h4>
-              <div class="icon"><img src="assets/images/service-icon-01.png" alt=""></div>
-              <p>Feel free to use this template for your business</p>
-            </div>
-            <div class="item">
-              <h4>Develop The Best Strategy for Business</h4>
-              <div class="icon"><img src="assets/images/service-icon-02.png" alt=""></div>
-              <p>Get to know more about the topic in details</p>
-            </div>
-            <div class="item">
-              <h4>UI / UX Design and Development</h4>
-              <div class="icon"><img src="assets/images/service-icon-03.png" alt=""></div>
-              <p>Get to know more about the topic in details</p>
-            </div>
-            <div class="item">
-              <h4>Discover &amp; Explore our SEO Tips</h4>
-              <div class="icon"><img src="assets/images/service-icon-04.png" alt=""></div>
-              <p>Feel free to use this template for your business</p>
-            </div>
-            <div class="item">
-              <h4>Optimizing your websites for Speed</h4>
-              <div class="icon"><img src="assets/images/service-icon-01.png" alt=""></div>
-              <p>Get to know more about the topic in details</p>
-            </div>
-            <div class="item">
-              <h4>See The Strategy In The Market</h4>
-              <div class="icon"><img src="assets/images/service-icon-02.png" alt=""></div>
-              <p>Get to know more about the topic in details</p>
-            </div>
-            <div class="item">
-              <h4>Best Content Ideas for your pages</h4>
-              <div class="icon"><img src="assets/images/service-icon-03.png" alt=""></div>
-              <p>Feel free to use this template for your business</p>
-            </div>
-            <div class="item">
-              <h4>Optimizing Speed for your web pages</h4>
-              <div class="icon"><img src="assets/images/service-icon-04.png" alt=""></div>
-              <p>Get to know more about the topic in details</p>
-            </div>
-            <div class="item">
-              <h4>Accessibility for mobile viewing</h4>
-              <div class="icon"><img src="assets/images/service-icon-01.png" alt=""></div>
-              <p>Get to know more about the topic in details</p>
-            </div>
-            <div class="item">
-              <h4>Content Ideas for your next project</h4>
-              <div class="icon"><img src="assets/images/service-icon-02.png" alt=""></div>
-              <p>Feel free to use this template for your business</p>
-            </div>
-            <div class="item">
-              <h4>UI &amp; UX Design &amp; Development</h4>
-              <div class="icon"><img src="assets/images/service-icon-03.png" alt=""></div>
-              <p>Get to know more about the topic in details</p>
-            </div>
-            <div class="item">
-              <h4>Discover the digital marketing trend</h4>
-              <div class="icon"><img src="assets/images/service-icon-04.png" alt=""></div>
-              <p>Get to know more about the topic in details</p>
-            </div>
-          </div>
+      <div class="hero-card">
+        <h3 style="margin:0 0 8px">Cart preview</h3>
+        <div style="color:var(--muted);font-size:14px">Items in cart: <strong id="preview-count">0</strong></div>
+        <div style="margin-top:12px;color:var(--muted);font-size:13px">Total: <strong id="preview-total">$0.00</strong></div>
+        <div style="margin-top:16px">
+          <button class="btn" onclick="document.getElementById('view-cart').click()">Open Cart</button>
         </div>
       </div>
     </div>
-  </div>
 
-  <div id="about" class="about-us section">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-6 align-self-center">
-          <div class="left-image">
-            <img src="assets/images/about-left-image.png" alt="Two Girls working together">
-          </div>
-        </div>
-        <div class="col-lg-6">
-          <div class="section-heading">
-            <h2>Grow your website with our <em>SEO Tools</em> &amp; <span>Project</span> Management</h2>
-            <p>You can browse free HTML templates on Too CSS website. Visit the website and explore latest website templates for your projects.</p>
-            <div class="row">
-              <div class="col-lg-4">
-                <div class="fact-item">
-                  <div class="count-area-content">
-                    <div class="icon">
-                      <img src="assets/images/service-icon-01.png" alt="">
-                    </div>
-                    <div class="count-digit">320</div>
-                    <div class="count-title">SEO Projects</div>
-                    <p>Lorem ipsum dolor sitti amet, consectetur.</p>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-4">
-                <div class="fact-item">
-                  <div class="count-area-content">
-                    <div class="icon">
-                      <img src="assets/images/service-icon-02.png" alt="">
-                    </div>
-                    <div class="count-digit">640</div>
-                    <div class="count-title">Websites</div>
-                    <p>Lorem ipsum dolor sitti amet, consectetur.</p>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-4">
-                <div class="fact-item">
-                  <div class="count-area-content">
-                    <div class="icon">
-                      <img src="assets/images/service-icon-03.png" alt="">
-                    </div>
-                    <div class="count-digit">120</div>
-                    <div class="count-title">Satisfied Clients</div>
-                    <p>Lorem ipsum dolor sitti amet, consectetur.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <h2 style="margin:0 0 12px">Featured Products</h2>
+      <div class="filters">
+        <select id="sort">
+          <option value="featured">Featured</option>
+          <option value="low">Price: Low to high</option>
+          <option value="high">Price: High to low</option>
+        </select>
       </div>
     </div>
-  </div>
 
-  <div id="portfolio" class="our-portfolio section">
-    <div class="portfolio-left-dec">
-      <img src="assets/images/portfolio-left-dec.png" alt="">
-    </div>
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-6 offset-lg-3">
-          <div class="section-heading">
-            <h2>Our Recent <em>Projects</em> &amp; Case Studies <span>for Clients</span></h2>
-            <span>Our Portfolio</span>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-lg-12">
-          <div class="owl-carousel owl-portfolio">
-            <div class="item">
-              <div class="thumb">
-                <img src="assets/images/portfolio-01.jpg" alt="">
-                <div class="hover-effect">
-                  <div class="inner-content">
-                    <a rel="sponsored" href="https://templatemo.com/tm-564-plot-listing" target="_parent"><h4>First Project</h4></a>
-                    <span>Plot Listing</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="item">
-              <div class="thumb">
-                <img src="assets/images/portfolio-02.jpg" alt="">
-                <div class="hover-effect">
-                  <div class="inner-content">
-                    <a href="#"><h4>Project Two</h4></a>
-                    <span>SEO &amp; Marketing</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="item">
-              <div class="thumb">
-                <img src="assets/images/portfolio-03.jpg" alt="">
-                <div class="hover-effect">
-                  <div class="inner-content">
-                    <a rel="sponsored" href="https://templatemo.com/tm-562-space-dynamic" target="_parent"><h4>Third Project</h4></a>
-                    <span>Space Dynamic SEO</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="item">
-              <div class="thumb">
-                <img src="assets/images/portfolio-04.jpg" alt="">
-                <div class="hover-effect">
-                  <div class="inner-content">
-                    <a href="#"><h4>Project Four</h4></a>
-                    <span>Website Marketing</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="item">
-              <div class="thumb">
-                <img src="assets/images/portfolio-01.jpg" alt="">
-                <div class="hover-effect">
-                  <div class="inner-content">
-                    <a href="#"><h4>Fifth Project</h4></a>
-                    <span>Digital Assets</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="item">
-              <div class="thumb">
-                <img src="assets/images/portfolio-02.jpg" alt="">
-                <div class="hover-effect">
-                  <div class="inner-content">
-                    <a href="#"><h4>Sixth Project</h4></a>
-                    <span>SEO &amp; Marketing</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="item">
-              <div class="thumb">
-                <img src="assets/images/portfolio-03.jpg" alt="">
-                <div class="hover-effect">
-                  <div class="inner-content">
-                    <a href="#"><h4>7th Project</h4></a>
-                    <span>SEO &amp; Marketing</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="item">
-              <div class="thumb">
-                <img src="assets/images/portfolio-04.jpg" alt="">
-                <div class="hover-effect">
-                  <div class="inner-content">
-                    <a href="#"><h4>8th Project</h4></a>
-                    <span>SEO &amp; Marketing</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="item">
-              <div class="thumb">
-                <img src="assets/images/portfolio-01.jpg" alt="">
-                <div class="hover-effect">
-                  <div class="inner-content">
-                    <a href="#"><h4>9th Project</h4></a>
-                    <span>SEO &amp; Marketing</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="item">
-              <div class="thumb">
-                <img src="assets/images/portfolio-02.jpg" alt="">
-                <div class="hover-effect">
-                  <div class="inner-content">
-                    <a href="#"><h4>Project Ten</h4></a>
-                    <span>SEO &amp; Marketing</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="item">
-              <div class="thumb">
-                <img src="assets/images/portfolio-03.jpg" alt="">
-                <div class="hover-effect">
-                  <div class="inner-content">
-                    <a href="#"><h4>Project Eleven</h4></a>
-                    <span>SEO &amp; Marketing</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="item">
-              <div class="thumb">
-                <img src="assets/images/portfolio-04.jpg" alt="">
-                <div class="hover-effect">
-                  <div class="inner-content">
-                    <a href="#"><h4>12th Project</h4></a>
-                    <span>SEO &amp; Marketing</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+    <div class="grid" id="products"></div>
 
-  <div id="pricing" class="pricing-tables">
-    <div class="tables-left-dec">
-      <img src="assets/images/tables-left-dec.png" alt="">
-    </div>
-    <div class="tables-right-dec">
-      <img src="assets/images/tables-right-dec.png" alt="">
-    </div>
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-6 offset-lg-3">
-          <div class="section-heading">
-            <h2>Select a suitable <em>plan</em> for your next <span>projects</span></h2>
-            <span>Our Plans</span>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-lg-4">
-          <div class="item first-item">
-            <h4>Starter Plan</h4>
-            <em>$160/mo</em>
-            <span>$140</span>
-            <ul>
-              <li>10 Projects</li>
-              <li>100 GB space</li>
-              <li>20 SEO checkups</li>
-              <li>Basic Support</li>
-            </ul>
-            <div class="main-blue-button-hover">
-              <a href="#">Get Started</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4">
-          <div class="item second-item">
-            <h4>Standard Plan</h4>
-            <em>$240/mo</em>
-            <span>$200</span>
-            <ul>
-              <li>20 Projects</li>
-              <li>200 GB space</li>
-              <li>50 SEO checkups</li>
-              <li>Pro Support</li>
-            </ul>
-            <div class="main-blue-button-hover">
-              <a href="#">Get it Now</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4">
-          <div class="item third-item">
-            <h4>Advanced Plan</h4>
-            <em>$360/mo</em>
-            <span>$280</span>
-            <ul>
-              <li>30 Projects</li>
-              <li>300 GB space</li>
-              <li>100 SEO checkups</li>
-              <li>Best Support</li>
-            </ul>
-            <div class="main-blue-button-hover">
-              <a href="#">Buy Now</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  </main>
 
-  <div id="subscribe" class="subscribe">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-12">
-          <div class="inner-content">
-            <div class="row">
-              <div class="col-lg-10 offset-lg-1">
-                <h2>Know Your Website SEO Score by Email</h2>
-                <form id="subscribe" action="" method="get">
-                  <input type="text" name="website" id="website" placeholder="Your Website URL" required="">
-                  <input type="text" name="email" id="email" pattern="[^ @]*@[^ @]*" placeholder="Your Email" required="">
-                  <button type="submit" id="form-submit" class="main-button ">Subscribe</button>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+  <aside class="cart-drawer" id="cart-drawer" aria-hidden="true">
+    <div class="cart-head">
+      <strong>Your cart</strong>
+      <button onclick="toggleCart()">Close</button>
     </div>
-  </div>
-
-  <div id="video" class="our-videos section">
-    <div class="videos-left-dec">
-      <img src="assets/images/videos-left-dec.png" alt="">
+    <div class="cart-list" id="cart-list">
+      <!-- items -->
     </div>
-    <div class="videos-right-dec">
-      <img src="assets/images/videos-right-dec.png" alt="">
+    <div style="padding:12px;border-top:1px solid #eef2f6">
+      <div style="display:flex;justify-content:space-between;margin-bottom:8px"><div>Subtotal</div><div id="subtotal">$0.00</div></div>
+      <button class="checkout" onclick="checkout()">Checkout</button>
     </div>
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-12">
-          <div class="naccs">
-            <div class="grid">
-              <div class="row">
-                <div class="col-lg-8">
-                  <ul class="nacc">
-                    <li class="active">
-                      <div>
-                        <div class="thumb">
-                          <iframe width="100%" height="auto" src="https://www.youtube.com/embed/JynGuQx4a1Y" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                          <div class="overlay-effect">
-                            <a href="#"><h4>Project One</h4></a>
-                            <span>SEO &amp; Marketing</span>
-                          </div>
-                        </div>
-                      </div>
-                    </li>
-                    <li>
-                      <div>
-                        <div class="thumb">
-                          <iframe width="100%" height="auto" src="https://www.youtube.com/embed/RdJBSFpcO4M" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                          <div class="overlay-effect">
-                            <a href="#"><h4>Second Project</h4></a>
-                            <span>Advertising &amp; Marketing</span>
-                          </div>
-                        </div>
-                      </div>
-                    </li>
-                    <li>
-                      <div>
-                        <div class="thumb">
-                          <iframe width="100%" height="auto" src="https://www.youtube.com/embed/ZlfAjbQiL78" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                          <div class="overlay-effect">
-                            <a href="#"><h4>Project Three</h4></a>
-                            <span>Digital &amp; Marketing</span>
-                          </div>
-                        </div>
-                      </div>
-                    </li>
-                    <li>
-                      <div>
-                        <div class="thumb">
-                          <iframe width="100%" height="auto" src="https://www.youtube.com/embed/mx1WseE7-0Y" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                          <div class="overlay-effect">
-                            <a href="#"><h4>Fourth Project</h4></a>
-                            <span>SEO &amp; Advertising</span>
-                          </div>
-                        </div>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-                <div class="col-lg-4">
-                  <div class="menu">
-                    <div class="active">
-                      <div class="thumb">
-                        <img src="assets/images/video-thumb-01.png" alt="">
-                        <div class="inner-content">
-                          <h4>Project One</h4>
-                          <span>SEO &amp; Marketing</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div>
-                      <div class="thumb">
-                        <img src="assets/images/video-thumb-02.png" alt="">
-                        <div class="inner-content">
-                          <h4>Second Project</h4>
-                          <span>Advertising &amp; Marketing</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div>
-                      <div class="thumb">
-                        <img src="assets/images/video-thumb-03.png" alt="Marketing">
-                        <div class="inner-content">
-                          <h4>Project Three</h4>
-                          <span>Digital &amp; Marketing</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div>
-                      <div class="thumb">
-                        <img src="assets/images/video-thumb-04.png" alt="SEO Work">
-                        <div class="inner-content">
-                          <h4>Fourth Project</h4>
-                          <span>SEO &amp; Advertising</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>             
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div id="contact" class="contact-us section">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-7">
-          <div class="section-heading">
-            <h2>Feel free to <em>Contact</em> us via the <span>HTML form</span></h2>
-            <div id="map">
-              <iframe src="https://maps.google.com/maps?q=Av.+L%C3%BAcio+Costa,+Rio+de+Janeiro+-+RJ,+Brazil&t=&z=13&ie=UTF8&iwloc=&output=embed" width="100%" height="360px" frameborder="0" style="border:0" allowfullscreen=""></iframe>
-            </div>
-            <div class="info">
-              <span><i class="fa fa-phone"></i> <a href="#">010-020-0340<br>090-080-0760</a></span>
-              <span><i class="fa fa-envelope"></i> <a href="#">info@company.com<br>mail@company.com</a></span>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-5 align-self-center">
-          <form id="contact" action="" method="get">
-            <div class="row">
-              <div class="col-lg-12">
-                <fieldset>
-                  <input type="name" name="name" id="name" placeholder="Name" autocomplete="on" required>
-                </fieldset>
-              </div>
-              <div class="col-lg-12">
-                <fieldset>
-                  <input type="surname" name="surname" id="surname" placeholder="Surname" autocomplete="on" required>
-                </fieldset>
-              </div>
-              <div class="col-lg-12">
-                <fieldset>
-                  <input type="text" name="email" id="email" pattern="[^ @]*@[^ @]*" placeholder="Your Email" required="">
-                </fieldset>
-              </div>
-              <div class="col-lg-12">
-                <fieldset>
-                  <input type="text" name="website" id="website" placeholder="Your Website URL" required="">
-                </fieldset>
-              </div>
-              <div class="col-lg-12">
-                <fieldset>
-                  <button type="submit" id="form-submit" class="main-button">Submit Request</button>
-                </fieldset>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-    <div class="contact-dec">
-      <img src="assets/images/contact-dec.png" alt="">
-    </div>
-    <div class="contact-left-dec">
-      <img src="assets/images/contact-left-dec.png" alt="">
-    </div>
-  </div>
-
-  <div class="footer-dec">
-    <img src="assets/images/footer-dec.png" alt="">
-  </div>
+  </aside>
 
   <footer>
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-3">
-          <div class="about footer-item">
-            <div class="logo">
-              <a href="#"><img src="assets/images/logo.png" alt="Onix Digital TemplateMo"></a>
-            </div>
-            <a href="#">info@company.com</a>
-            <ul>
-              <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-              <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-              <li><a href="#"><i class="fa fa-behance"></i></a></li>
-              <li><a href="#"><i class="fa fa-instagram"></i></a></li>
-            </ul>
-          </div>
-        </div>
-        <div class="col-lg-3">
-          <div class="services footer-item">
-            <h4>Services</h4>
-            <ul>
-              <li><a href="#">SEO Development</a></li>
-              <li><a href="#">Business Growth</a></li>
-              <li><a href="#">Social Media Managment</a></li>
-              <li><a href="#">Website Optimization</a></li>
-            </ul>
-          </div>
-        </div>
-        <div class="col-lg-3">
-          <div class="community footer-item">
-            <h4>Community</h4>
-            <ul>
-              <li><a href="#">Digital Marketing</a></li>
-              <li><a href="#">Business Ideas</a></li>
-              <li><a href="#">Website Checkup</a></li>
-              <li><a href="#">Page Speed Test</a></li>
-            </ul>
-          </div>
-        </div>
-        <div class="col-lg-3">
-          <div class="subscribe-newsletters footer-item">
-            <h4>Subscribe Newsletters</h4>
-            <p>Get our latest news and ideas to your inbox</p>
-            <form action="#" method="get">
-              <input type="text" name="email" id="email" pattern="[^ @]*@[^ @]*" placeholder="Your Email" required="">
-              <button type="submit" id="form-submit" class="main-button "><i class="fa fa-paper-plane-o"></i></button>
-            </form>
-          </div>
-        </div>
-        <div class="col-lg-12">
-          <div class="copyright">
-            <p>Copyright © 2021 Onix Digital Co., Ltd. All Rights Reserved. 
-            <br>
-            Designed by <a rel="nofollow" href="https://templatemo.com" title="free CSS templates">TemplateMo</a></p>
-          </div>
-        </div>
-      </div>
-    </div>
+    This is a static demo. In production, replace client-side cart with a secure server-backed checkout.
   </footer>
 
-
-  <!-- Scripts -->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/js/owl-carousel.js"></script>
-  <script src="assets/js/animation.js"></script>
-  <script src="assets/js/imagesloaded.js"></script>
-  <script src="assets/js/custom.js"></script>
-
   <script>
-  // Acc
-    $(document).on("click", ".naccs .menu div", function() {
-      var numberIndex = $(this).index();
+    // sample product catalog
+    const products = [
+      {id:1,title:'Classic White Sneakers',desc:'Comfortable everyday sneakers',price:59.99,img:'https://images.unsplash.com/photo-1542293787937-2b6b64a5bcd5?w=1200&q=80&auto=format&fit=crop'},
+      {id:2,title:'Leather Wallet',desc:'Slim bi-fold wallet',price:29.95,img:'https://images.unsplash.com/photo-1520975875237-8a3c35a0dfc8?w=1200&q=80&auto=format&fit=crop'},
+      {id:3,title:'Minimal Backpack',desc:'Carry everything with style',price:79.5,img:'https://images.unsplash.com/photo-1499084732479-de2c02d45fc4?w=1200&q=80&auto=format&fit=crop'},
+      {id:4,title:'Cozy Knit Sweater',desc:'Warm and soft — unisex',price:49.0,img:'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=1200&q=80&auto=format&fit=crop'},
+      {id:5,title:'Stainless Water Bottle',desc:'Keeps drinks cold for 24h',price:24.0,img:'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=1200&q=80&auto=format&fit=crop'},
+      {id:6,title:'Wireless Headphones',desc:'Noise-cancelling over-ear',price:129.99,img:'https://images.unsplash.com/photo-1518444020062-3d36c5f8e4b9?w=1200&q=80&auto=format&fit=crop'}
+    ];
 
-      if (!$(this).is("active")) {
-          $(".naccs .menu div").removeClass("active");
-          $(".naccs ul li").removeClass("active");
+    let cart = {};
 
-          $(this).addClass("active");
-          $(".naccs ul").find("li:eq(" + numberIndex + ")").addClass("active");
+    function renderProducts(list){
+      const el = document.getElementById('products');
+      el.innerHTML='';
+      list.forEach(p=>{
+        const card = document.createElement('article');
+        card.className='product';
+        card.innerHTML = `
+          <img src="${p.img}" alt="${p.title}">
+          <div>
+            <h3 class="p-title">${p.title}</h3>
+            <p class="p-desc">${p.desc}</p>
+          </div>
+          <div class="p-bottom">
+            <div class="price">$${p.price.toFixed(2)}</div>
+            <button class="add" onclick="addToCart(${p.id})">Add</button>
+          </div>
+        `;
+        el.appendChild(card);
+      });
+    }
 
-          var listItemHeight = $(".naccs ul")
-            .find("li:eq(" + numberIndex + ")")
-            .innerHeight();
-          $(".naccs ul").height(listItemHeight + "px");
-        }
+    function addToCart(id){
+      const p = products.find(x=>x.id===id);
+      if(!p) return;
+      cart[id] = cart[id] || {qty:0,product:p};
+      cart[id].qty += 1;
+      updateCartUI();
+      flashAdded(p.title);
+    }
+
+    function flashAdded(title){
+      // tiny toast
+      const t = document.createElement('div');
+      t.textContent = `${title} added to cart`;
+      Object.assign(t.style,{position:'fixed',left:'50%',transform:'translateX(-50%)',bottom:'24px',background:'#111',color:'#fff',padding:'8px 12px',borderRadius:'8px',opacity:0,transition:'opacity .25s'});
+      document.body.appendChild(t);
+      requestAnimationFrame(()=>t.style.opacity=1);
+      setTimeout(()=>{t.style.opacity=0;setTimeout(()=>t.remove(),300)},1300);
+    }
+
+    function updateCartUI(){
+      const count = Object.values(cart).reduce((s,i)=>s+i.qty,0);
+      const total = Object.values(cart).reduce((s,i)=>s+i.qty*i.product.price,0);
+      document.getElementById('cart-count').textContent = count;
+      document.getElementById('preview-count').textContent = count;
+      document.getElementById('preview-total').textContent = `$${total.toFixed(2)}`;
+      document.getElementById('subtotal').textContent = `$${total.toFixed(2)}`;
+      renderCartList();
+    }
+
+    function renderCartList(){
+      const list = document.getElementById('cart-list');
+      list.innerHTML = '';
+      if(Object.keys(cart).length===0){
+        list.innerHTML = '<div style="padding:12px;color:var(--muted)">Your cart is empty</div>';
+        return;
+      }
+      Object.values(cart).forEach(item=>{
+        const div = document.createElement('div');
+        div.className='cart-item';
+        div.innerHTML = `
+          <img class="ci-thumb" src="${item.product.img}" alt="${item.product.title}">
+          <div class="ci-meta">
+            <div style="font-weight:600">${item.product.title}</div>
+            <div style="color:var(--muted);font-size:13px">$${item.product.price.toFixed(2)} each</div>
+            <div class="qty" style="margin-top:8px">
+              <button onclick="changeQty(${item.product.id}, -1)">-</button>
+              <div style="padding:6px 8px;border:1px solid #eef2f6;border-radius:6px">${item.qty}</div>
+              <button onclick="changeQty(${item.product.id}, 1)">+</button>
+              <button style="margin-left:8px;background:transparent;border:none;color:var(--muted);cursor:pointer" onclick="removeItem(${item.product.id})">Remove</button>
+            </div>
+          </div>
+        `;
+        list.appendChild(div);
+      });
+    }
+
+    function changeQty(id, diff){
+      if(!cart[id]) return;
+      cart[id].qty += diff;
+      if(cart[id].qty <= 0) delete cart[id];
+      updateCartUI();
+    }
+
+    function removeItem(id){ delete cart[id]; updateCartUI(); }
+
+    function toggleCart(){
+      const d = document.getElementById('cart-drawer');
+      d.classList.toggle('open');
+      d.setAttribute('aria-hidden', !d.classList.contains('open'));
+    }
+
+    document.getElementById('view-cart').addEventListener('click',toggleCart);
+
+    function checkout(){
+      const total = Object.values(cart).reduce((s,i)=>s+i.qty*i.product.price,0);
+      if(total===0){alert('Your cart is empty');return}
+      // fake checkout
+      alert('Checkout placeholder — total: $' + total.toFixed(2) + '\n\nIn production, send this to your server to create an order.');
+      // clear cart
+      cart = {}; updateCartUI(); toggleCart();
+    }
+
+    // search & sort
+    document.getElementById('search').addEventListener('input', (e)=>{
+      const q = e.target.value.trim().toLowerCase();
+      filterAndRender(q, document.getElementById('sort').value);
     });
+    document.getElementById('sort').addEventListener('change', ()=>{
+      filterAndRender(document.getElementById('search').value.trim().toLowerCase(), document.getElementById('sort').value);
+    });
+
+    function filterAndRender(q, sort){
+      let list = products.filter(p=>p.title.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q));
+      if(sort==='low') list.sort((a,b)=>a.price-b.price);
+      if(sort==='high') list.sort((a,b)=>b.price-a.price);
+      renderProducts(list);
+    }
+
+    // initial
+    renderProducts(products);
+    updateCartUI();
   </script>
 </body>
 </html>

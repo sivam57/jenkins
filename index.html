@@ -1,264 +1,107 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Simple E‑Commerce Demo</title>
-  <style>
-    :root{--bg:#f6f8fa;--card:#fff;--muted:#6b7280;--accent:#2563eb;--accent-2:#10b981}
-    *{box-sizing:border-box}
-    body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;background:var(--bg);color:#0f172a}
-    header{background:linear-gradient(90deg,#0ea5e9 0%, #7c3aed 100%);color:#fff;padding:20px 16px;display:flex;gap:16px;align-items:center;justify-content:space-between}
-    .brand{display:flex;gap:12px;align-items:center}
-    .logo{width:44px;height:44px;border-radius:8px;background:rgba(255,255,255,0.14);display:flex;align-items:center;justify-content:center;font-weight:700}
-    .brand h1{font-size:18px;margin:0}
-    .search{flex:1;margin:0 16px}
-    .search input{width:100%;padding:10px 12px;border-radius:8px;border:none;outline:none}
-    .cart-btn{background:rgba(255,255,255,0.12);border:none;color:white;padding:10px 12px;border-radius:8px;cursor:pointer}
-
-    main{max-width:1100px;margin:28px auto;padding:0 16px}
-    .hero{display:grid;grid-template-columns:1fr 360px;gap:24px;align-items:center;margin-bottom:24px}
-    .hero-card{background:var(--card);padding:26px;border-radius:12px;box-shadow:0 4px 20px rgba(2,6,23,0.08)}
-    .hero h2{margin:0 0 8px;font-size:20px}
-    .hero p{margin:0;color:var(--muted)}
-    .hero .cta{margin-top:16px}
-    .btn{background:var(--accent);color:#fff;padding:10px 14px;border-radius:10px;border:none;cursor:pointer}
-    .btn.secondary{background:transparent;color:var(--accent);border:1px solid rgba(37,99,235,0.12)}
-
-    .filters{display:flex;gap:12px;margin-bottom:12px;align-items:center}
-    .filters select{padding:8px;border-radius:8px;border:1px solid #e6edf3}
-
-    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-    @media(max-width:900px){.hero{grid-template-columns:1fr} .grid{grid-template-columns:repeat(2,1fr)}}
-    @media(max-width:560px){.grid{grid-template-columns:1fr}}
-
-    .product{background:var(--card);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:10px;box-shadow:0 6px 18px rgba(2,6,23,0.04)}
-    .product img{width:100%;height:180px;object-fit:cover;border-radius:8px}
-    .p-title{font-weight:600;margin:0}
-    .p-desc{margin:0;color:var(--muted);font-size:13px}
-    .p-bottom{display:flex;align-items:center;justify-content:space-between}
-    .price{font-weight:700}
-    .add{background:var(--accent-2);border:none;padding:8px 10px;border-radius:8px;color:white;cursor:pointer}
-
-    /* cart drawer */
-    .cart-drawer{position:fixed;right:16px;top:72px;width:360px;max-height:70vh;background:var(--card);border-radius:12px;box-shadow:0 10px 40px rgba(2,6,23,0.16);overflow:auto;transform:translateX(120%);transition:transform .25s ease-in-out}
-    .cart-drawer.open{transform:translateX(0)}
-    .cart-head{display:flex;align-items:center;justify-content:space-between;padding:16px;border-bottom:1px solid #eef2f6}
-    .cart-list{padding:12px;display:flex;flex-direction:column;gap:12px}
-    .cart-item{display:flex;gap:10px;align-items:center}
-    .ci-thumb{width:64px;height:64px;border-radius:8px;object-fit:cover}
-    .ci-meta{flex:1}
-    .qty{display:flex;gap:6px;align-items:center}
-    .qty button{padding:6px;border-radius:6px;border:1px solid #e6edf3;background:transparent;cursor:pointer}
-    .checkout{padding:12px;margin:12px;border-radius:10px;border:none;background:var(--accent);color:white;width:calc(100% - 24px);cursor:pointer}
-
-    footer{max-width:1100px;margin:28px auto;padding:16px;color:var(--muted)}
-  </style>
+    <meta charset="UTF-8">
+    <title>College Management System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f4f6f8;
+        }
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        nav {
+            background-color: #34495e;
+            padding: 10px;
+            text-align: center;
+        }
+        nav a {
+            color: white;
+            margin: 10px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        section {
+            padding: 20px;
+        }
+        .card {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+        }
+        input, select {
+            padding: 8px;
+            margin: 5px;
+            width: 95%;
+        }
+        button {
+            padding: 10px;
+            background: #27ae60;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-  <header>
-    <div class="brand">
-      <div class="logo">EC</div>
-      <div>
-        <h1>EasyCart</h1>
-        <div style="font-size:12px;opacity:.9">Handmade demo store</div>
-      </div>
+
+<header>
+    <h1>College Management System</h1>
+</header>
+
+<nav>
+    <a href="#students">Students</a>
+    <a href="#teachers">Teachers</a>
+    <a href="#courses">Courses</a>
+</nav>
+
+<section id="students">
+    <div class="card">
+        <h2>Student Registration</h2>
+        <form>
+            <input type="text" placeholder="Student Name" required><br>
+            <input type="text" placeholder="Roll Number" required><br>
+            <input type="email" placeholder="Email" required><br>
+            <button type="submit">Add Student</button>
+        </form>
     </div>
-    <div class="search"><input id="search" placeholder="Search products, e.g. shoes, jacket..." /></div>
-    <div style="display:flex;gap:10px;align-items:center">
-      <button class="cart-btn" id="view-cart">Cart (<span id="cart-count">0</span>)</button>
+</section>
+
+<section id="teachers">
+    <div class="card">
+        <h2>Teacher Registration</h2>
+        <form>
+            <input type="text" placeholder="Teacher Name" required><br>
+            <input type="text" placeholder="Department" required><br>
+            <input type="email" placeholder="Email" required><br>
+            <button type="submit">Add Teacher</button>
+        </form>
     </div>
-  </header>
+</section>
 
-  <main>
-    <div class="hero">
-      <div class="hero-card">
-        <h2>Welcome to EasyCart</h2>
-        <p>Beautifully simple e-commerce demo. Browse products, add to cart and try a fake checkout flow — all client-side.</p>
-        <div class="cta">
-          <button class="btn" onclick="document.getElementById('search').focus()">Start shopping</button>
-          <button class="btn secondary" onclick="document.getElementById('view-cart').click()">View cart</button>
-        </div>
-      </div>
-
-      <div class="hero-card">
-        <h3 style="margin:0 0 8px">Cart preview</h3>
-        <div style="color:var(--muted);font-size:14px">Items in cart: <strong id="preview-count">0</strong></div>
-        <div style="margin-top:12px;color:var(--muted);font-size:13px">Total: <strong id="preview-total">$0.00</strong></div>
-        <div style="margin-top:16px">
-          <button class="btn" onclick="document.getElementById('view-cart').click()">Open Cart</button>
-        </div>
-      </div>
+<section id="courses">
+    <div class="card">
+        <h2>Add Course</h2>
+        <form>
+            <input type="text" placeholder="Course Name" required><br>
+            <input type="text" placeholder="Course Code" required><br>
+            <select>
+                <option>Select Department</option>
+                <option>Computer Science</option>
+                <option>Mechanical</option>
+                <option>Electrical</option>
+            </select><br>
+            <button type="submit">Add Course</button>
+        </form>
     </div>
+</section>
 
-    <div style="display:flex;justify-content:space-between;align-items:center">
-      <h2 style="margin:0 0 12px">Featured Products</h2>
-      <div class="filters">
-        <select id="sort">
-          <option value="featured">Featured</option>
-          <option value="low">Price: Low to high</option>
-          <option value="high">Price: High to low</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="grid" id="products"></div>
-
-  </main>
-
-  <aside class="cart-drawer" id="cart-drawer" aria-hidden="true">
-    <div class="cart-head">
-      <strong>Your cart</strong>
-      <button onclick="toggleCart()">Close</button>
-    </div>
-    <div class="cart-list" id="cart-list">
-      <!-- items -->
-    </div>
-    <div style="padding:12px;border-top:1px solid #eef2f6">
-      <div style="display:flex;justify-content:space-between;margin-bottom:8px"><div>Subtotal</div><div id="subtotal">$0.00</div></div>
-      <button class="checkout" onclick="checkout()">Checkout</button>
-    </div>
-  </aside>
-
-  <footer>
-    This is a static demo. In production, replace client-side cart with a secure server-backed checkout.
-  </footer>
-
-  <script>
-    // sample product catalog
-    const products = [
-      {id:1,title:'Classic White Sneakers',desc:'Comfortable everyday sneakers',price:59.99,img:'https://images.unsplash.com/photo-1542293787937-2b6b64a5bcd5?w=1200&q=80&auto=format&fit=crop'},
-      {id:2,title:'Leather Wallet',desc:'Slim bi-fold wallet',price:29.95,img:'https://images.unsplash.com/photo-1520975875237-8a3c35a0dfc8?w=1200&q=80&auto=format&fit=crop'},
-      {id:3,title:'Minimal Backpack',desc:'Carry everything with style',price:79.5,img:'https://images.unsplash.com/photo-1499084732479-de2c02d45fc4?w=1200&q=80&auto=format&fit=crop'},
-      {id:4,title:'Cozy Knit Sweater',desc:'Warm and soft — unisex',price:49.0,img:'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=1200&q=80&auto=format&fit=crop'},
-      {id:5,title:'Stainless Water Bottle',desc:'Keeps drinks cold for 24h',price:24.0,img:'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=1200&q=80&auto=format&fit=crop'},
-      {id:6,title:'Wireless Headphones',desc:'Noise-cancelling over-ear',price:129.99,img:'https://images.unsplash.com/photo-1518444020062-3d36c5f8e4b9?w=1200&q=80&auto=format&fit=crop'}
-    ];
-
-    let cart = {};
-
-    function renderProducts(list){
-      const el = document.getElementById('products');
-      el.innerHTML='';
-      list.forEach(p=>{
-        const card = document.createElement('article');
-        card.className='product';
-        card.innerHTML = `
-          <img src="${p.img}" alt="${p.title}">
-          <div>
-            <h3 class="p-title">${p.title}</h3>
-            <p class="p-desc">${p.desc}</p>
-          </div>
-          <div class="p-bottom">
-            <div class="price">$${p.price.toFixed(2)}</div>
-            <button class="add" onclick="addToCart(${p.id})">Add</button>
-          </div>
-        `;
-        el.appendChild(card);
-      });
-    }
-
-    function addToCart(id){
-      const p = products.find(x=>x.id===id);
-      if(!p) return;
-      cart[id] = cart[id] || {qty:0,product:p};
-      cart[id].qty += 1;
-      updateCartUI();
-      flashAdded(p.title);
-    }
-
-    function flashAdded(title){
-      // tiny toast
-      const t = document.createElement('div');
-      t.textContent = `${title} added to cart`;
-      Object.assign(t.style,{position:'fixed',left:'50%',transform:'translateX(-50%)',bottom:'24px',background:'#111',color:'#fff',padding:'8px 12px',borderRadius:'8px',opacity:0,transition:'opacity .25s'});
-      document.body.appendChild(t);
-      requestAnimationFrame(()=>t.style.opacity=1);
-      setTimeout(()=>{t.style.opacity=0;setTimeout(()=>t.remove(),300)},1300);
-    }
-
-    function updateCartUI(){
-      const count = Object.values(cart).reduce((s,i)=>s+i.qty,0);
-      const total = Object.values(cart).reduce((s,i)=>s+i.qty*i.product.price,0);
-      document.getElementById('cart-count').textContent = count;
-      document.getElementById('preview-count').textContent = count;
-      document.getElementById('preview-total').textContent = `$${total.toFixed(2)}`;
-      document.getElementById('subtotal').textContent = `$${total.toFixed(2)}`;
-      renderCartList();
-    }
-
-    function renderCartList(){
-      const list = document.getElementById('cart-list');
-      list.innerHTML = '';
-      if(Object.keys(cart).length===0){
-        list.innerHTML = '<div style="padding:12px;color:var(--muted)">Your cart is empty</div>';
-        return;
-      }
-      Object.values(cart).forEach(item=>{
-        const div = document.createElement('div');
-        div.className='cart-item';
-        div.innerHTML = `
-          <img class="ci-thumb" src="${item.product.img}" alt="${item.product.title}">
-          <div class="ci-meta">
-            <div style="font-weight:600">${item.product.title}</div>
-            <div style="color:var(--muted);font-size:13px">$${item.product.price.toFixed(2)} each</div>
-            <div class="qty" style="margin-top:8px">
-              <button onclick="changeQty(${item.product.id}, -1)">-</button>
-              <div style="padding:6px 8px;border:1px solid #eef2f6;border-radius:6px">${item.qty}</div>
-              <button onclick="changeQty(${item.product.id}, 1)">+</button>
-              <button style="margin-left:8px;background:transparent;border:none;color:var(--muted);cursor:pointer" onclick="removeItem(${item.product.id})">Remove</button>
-            </div>
-          </div>
-        `;
-        list.appendChild(div);
-      });
-    }
-
-    function changeQty(id, diff){
-      if(!cart[id]) return;
-      cart[id].qty += diff;
-      if(cart[id].qty <= 0) delete cart[id];
-      updateCartUI();
-    }
-
-    function removeItem(id){ delete cart[id]; updateCartUI(); }
-
-    function toggleCart(){
-      const d = document.getElementById('cart-drawer');
-      d.classList.toggle('open');
-      d.setAttribute('aria-hidden', !d.classList.contains('open'));
-    }
-
-    document.getElementById('view-cart').addEventListener('click',toggleCart);
-
-    function checkout(){
-      const total = Object.values(cart).reduce((s,i)=>s+i.qty*i.product.price,0);
-      if(total===0){alert('Your cart is empty');return}
-      // fake checkout
-      alert('Checkout placeholder — total: $' + total.toFixed(2) + '\n\nIn production, send this to your server to create an order.');
-      // clear cart
-      cart = {}; updateCartUI(); toggleCart();
-    }
-
-    // search & sort
-    document.getElementById('search').addEventListener('input', (e)=>{
-      const q = e.target.value.trim().toLowerCase();
-      filterAndRender(q, document.getElementById('sort').value);
-    });
-    document.getElementById('sort').addEventListener('change', ()=>{
-      filterAndRender(document.getElementById('search').value.trim().toLowerCase(), document.getElementById('sort').value);
-    });
-
-    function filterAndRender(q, sort){
-      let list = products.filter(p=>p.title.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q));
-      if(sort==='low') list.sort((a,b)=>a.price-b.price);
-      if(sort==='high') list.sort((a,b)=>b.price-a.price);
-      renderProducts(list);
-    }
-
-    // initial
-    renderProducts(products);
-    updateCartUI();
-  </script>
 </body>
 </html>
